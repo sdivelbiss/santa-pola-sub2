@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A 15-week half-marathon training plan to break 2:00 at Santa Pola on 24 Jan 2027.">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}:root{color-scheme:light}</style>
+<title>Santa Pola Sub-2:00</title>
+<style>
+  /* Layout: single-column reading plan — sticky race header, pace tools up top, 15 week cards with loggable sessions, strategy at the foot. Coastal-Mediterranean palette (sea + salt + sunrise), condensed athletic display over a clean body face, mono for every number. */
+  :root{
+    --bg:#eef2f3; --surface:#ffffff; --surface-2:#f6f8f9;
+    --ink:#15242d; --muted:#5d6e78; --line:#dce3e7;
+    --sea:#0b6e8f; --sea-soft:#0b6e8f1a;
+    --coral:#dd5133; --gold:#b57d1f;
+    --good:#1f8a5b; --warn:#c08a2e; --bad:#c0472e;
+    --ph-base:#1f8a5b; --ph-build:#0b6e8f; --ph-peak:#dd5133; --ph-trip:#8a6fb0; --ph-taper:#c08a2e; --ph-race:#b02a45;
+    --radius:14px;
+    --f-display:"Oswald","Arial Narrow",system-ui,sans-serif;
+    --f-body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+    --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",monospace;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#0e1419; --surface:#161f26; --surface-2:#1b262e;
+    --ink:#e7edf0; --muted:#9aa9b2; --line:#27333b;
+    --sea:#45b3d4; --sea-soft:#45b3d41f;
+    --coral:#f1794f; --gold:#e0b25a;
+    --good:#4bbd86; --warn:#e0b25a; --bad:#f08763;
+    --ph-base:#4bbd86; --ph-build:#45b3d4; --ph-peak:#f1794f; --ph-trip:#b095d6; --ph-taper:#e0b25a; --ph-race:#e86a84;
+    color-scheme:dark;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#0e1419; --surface:#161f26; --surface-2:#1b262e;
+    --ink:#e7edf0; --muted:#9aa9b2; --line:#27333b;
+    --sea:#45b3d4; --sea-soft:#45b3d41f;
+    --coral:#f1794f; --gold:#e0b25a;
+    --good:#4bbd86; --warn:#e0b25a; --bad:#f08763;
+    --ph-base:#4bbd86; --ph-build:#45b3d4; --ph-peak:#f1794f; --ph-trip:#b095d6; --ph-taper:#e0b25a; --ph-race:#e86a84;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0 56px}
+  h1,h2,h3{font-family:var(--f-display);font-weight:600;text-wrap:balance;margin:0;letter-spacing:.2px}
+  a{color:var(--sea)}
+  .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+  .eyebrow{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;font-weight:500;color:var(--muted)}
+
+  header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+  .hdr-in{max-width:860px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .hdr-main{min-width:0;flex:1}
+  .hdr-main h1{font-size:clamp(1.3rem,5vw,1.9rem);line-height:1;text-transform:uppercase}
+  .hdr-main .sub{font-size:.8rem;color:var(--muted);margin-top:3px}
+  .count{text-align:center;background:var(--sea-soft);border:1px solid var(--sea);border-radius:12px;padding:6px 12px;line-height:1}
+  .count b{font-family:var(--f-mono);font-size:1.5rem;color:var(--sea);display:block;font-weight:700}
+  .count span{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.1em;font-size:.6rem;color:var(--muted)}
+
+  section{margin-top:30px}
+  .lead{font-size:.95rem;color:var(--muted);margin-top:6px}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+  .pad{padding:18px}
+
+  .goal{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .goal>div{background:var(--surface);padding:14px 16px}
+  .goal .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-family:var(--f-display)}
+  .goal .v{font-family:var(--f-mono);font-size:1.35rem;font-weight:600;margin-top:4px}
+  .goal .v small{font-size:.72rem;color:var(--muted);font-weight:400}
+
+  .calc-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+  .field label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:var(--f-display);margin-bottom:5px}
+  .field input{font-family:var(--f-mono);font-size:1.1rem;width:120px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--ink)}
+  .field input:focus{outline:2px solid var(--sea);outline-offset:1px;border-color:var(--sea)}
+  .hint{font-size:.74rem;color:var(--muted);margin-top:8px}
+  .verdict{margin-top:14px;padding:12px 14px;border-radius:11px;border:1px solid var(--line);background:var(--surface-2);font-size:.9rem}
+  .verdict .mono{font-weight:600}
+  .paces{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:10px;margin-top:14px}
+  .pace{background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:11px 12px}
+  .pace .n{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:var(--f-display)}
+  .pace .p{font-family:var(--f-mono);font-size:1.15rem;font-weight:600;margin-top:3px}
+  .pace .u{font-size:.68rem;color:var(--muted)}
+
+  .phasebar{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px}
+  .pbcell{flex:1 0 auto;min-width:38px;text-align:center}
+  .pbcell .bar{height:8px;border-radius:4px;background:var(--pc)}
+  .pbcell .wn{font-family:var(--f-mono);font-size:.64rem;color:var(--muted);margin-top:4px}
+  .pbcell.now .wn{color:var(--ink);font-weight:700}
+  .pbcell.now .bar{outline:2px solid var(--ink);outline-offset:1px}
+  .legend{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:14px;font-size:.76rem}
+  .legend span{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+  .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+  .week{scroll-margin-top:90px}
+  .week+.week{margin-top:14px}
+  .week.now{border-color:var(--sea);box-shadow:0 0 0 1px var(--sea)}
+  .whead{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
+  .whead:focus-visible{outline:2px solid var(--sea);outline-offset:-2px}
+  .wnum{font-family:var(--f-display);font-weight:600;font-size:1.5rem;line-height:1;min-width:30px;text-align:center}
+  .wtitle{flex:1;min-width:0}
+  .wtitle .t{font-family:var(--f-display);font-size:1.02rem;font-weight:500;line-height:1.1}
+  .wtitle .d{font-size:.74rem;color:var(--muted);font-family:var(--f-mono);margin-top:2px}
+  .chip{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.07em;font-size:.62rem;font-weight:600;padding:3px 8px;border-radius:999px;color:#fff;white-space:nowrap}
+  .wkm{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);white-space:nowrap}
+  .caret{color:var(--muted);transition:transform .2s;flex:none}
+  .week[open] .caret.main{transform:rotate(90deg)}
+  .wbody{padding:0 16px 16px;border-top:1px solid var(--line)}
+  .wnote{font-size:.84rem;background:var(--sea-soft);border-left:3px solid var(--sea);padding:9px 12px;border-radius:0 8px 8px 0;margin:14px 0 4px}
+  .sess{display:flex;gap:11px;align-items:flex-start;padding:11px 2px;border-bottom:1px solid var(--line)}
+  .sess:last-child{border-bottom:none}
+  .sess input{margin-top:3px;width:18px;height:18px;accent-color:var(--sea);flex:none}
+  .sess .day{font-family:var(--f-mono);font-size:.72rem;font-weight:600;color:var(--sea);min-width:30px;padding-top:2px}
+  .sess .body{min-width:0;flex:1}
+  .sess .st{font-weight:600;font-size:.92rem}
+  .sess .sx{font-size:.82rem;color:var(--muted);margin-top:1px}
+  .sess.done .st,.sess.done .sx{text-decoration:line-through;opacity:.5}
+  details.week>summary{list-style:none}
+  details.week>summary::-webkit-details-marker{display:none}
+
+  /* strength: loggable sessions */
+  .substr{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.12em;font-size:.64rem;color:var(--muted);margin-top:16px;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;gap:7px}
+  .substr i{width:9px;height:9px;border-radius:2px;background:var(--gold);display:inline-block}
+  .sday2{margin-top:8px;border:1px solid var(--line);border-radius:11px;overflow:hidden;background:var(--surface-2)}
+  .sday2>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:11px 12px}
+  .sday2>summary::-webkit-details-marker{display:none}
+  .sday2 .s2day{font-family:var(--f-mono);font-size:.72rem;font-weight:600;color:var(--gold);min-width:30px}
+  .sday2 .s2t{flex:1;font-family:var(--f-display);font-weight:500;font-size:.92rem;min-width:0}
+  .sday2 .s2ct{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+  .sday2[open] .caret{transform:rotate(90deg)}
+  .s2body{padding:2px 12px 12px;border-top:1px solid var(--line)}
+  .s2note{font-size:.8rem;color:var(--muted);margin:10px 0 2px}
+  .exrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+  .exrow:last-child{border-bottom:none}
+  .exrow .exck{margin-top:2px;width:17px;height:17px;accent-color:var(--gold);flex:none}
+  .exmain{flex:1;min-width:0}
+  .exn{font-size:.88rem;font-weight:500}
+  .exn .exrx{font-family:var(--f-mono);font-size:.76rem;color:var(--muted);font-weight:400;margin-left:5px;white-space:nowrap}
+  .exrow.done .exn{text-decoration:line-through;opacity:.5}
+  .exlog{margin-top:7px;width:100%;max-width:240px;font-family:var(--f-mono);font-size:.82rem;padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+  .exlog:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:620px){.two{grid-template-columns:1fr}.goal .v{font-size:1.2rem}}
+  ul.clean{margin:10px 0 0;padding-left:18px}
+  ul.clean li{margin:7px 0;font-size:.9rem}
+  ul.clean li b{font-weight:600}
+  .splits{width:100%;border-collapse:collapse;margin-top:10px;font-size:.86rem}
+  .splits th,.splits td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+  .splits th{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.06em;font-size:.66rem;color:var(--muted);font-weight:500}
+  .splits td.mono{font-family:var(--f-mono)}
+  .foot{margin-top:30px;font-size:.78rem;color:var(--muted);text-align:center}
+  .toolbtn{font-family:var(--f-display);text-transform:uppercase;letter-spacing:.06em;font-size:.68rem;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:6px 10px;cursor:pointer}
+  .toolbtn:hover{color:var(--ink);border-color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="hdr-in">
+    <div class="hdr-main">
+      <h1>Santa Pola Sub-2</h1>
+      <div class="sub">35ª Mitja Marató Internacional · Sun 24 Jan 2027, 10:30 · 21.1&nbsp;km</div>
+    </div>
+    <div class="count"><b id="countdays">—</b><span>days to go</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <p class="lead">A 15-week build from a 5K base to under two hours, around 4 runs plus 2 strength sessions a week. The target is to run <b>21.1&nbsp;km at 5:41/km</b> — so we train you to hold <b>5:35/km</b> comfortably and bank a buffer against the late-race fade. Santa Pola is flat and fast, which is exactly why it's a known PB course. Most of your running is easy; the hard days are few and have a clear job.</p>
+    <div class="goal" style="margin-top:16px">
+      <div><div class="k">Finish line</div><div class="v">1:59:59 <small>/ sub-2</small></div></div>
+      <div><div class="k">Race pace</div><div class="v">5:41 <small>/km</small></div></div>
+      <div><div class="k">Train at</div><div class="v">5:35 <small>/km</small></div></div>
+      <div><div class="k">Buffer</div><div class="v">~2:00 <small>in hand</small></div></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Set your paces</span>
+    <h2 style="font-size:1.25rem">Calibrate off a recent 5K</h2>
+    <p class="lead">Your Week 1 benchmark 5K sets everything below. Enter it and the plan's paces become yours. Re-enter after the Week 8 fitness check.</p>
+    <div class="card pad" style="margin-top:12px">
+      <div class="calc-row">
+        <div class="field">
+          <label for="tt">Recent 5K time</label>
+          <input id="tt" class="mono" inputmode="numeric" value="28:00" aria-label="5K time in minutes and seconds">
+        </div>
+        <div class="field" style="flex:1">
+          <div class="hint" style="margin:0">Format <b>mm:ss</b>. Starting value is an example — replace it with yours.</div>
+        </div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+      <div class="paces" id="paces"></div>
+      <div class="hint">These are training zones, not race pace. Early on, run easy by feel and let the faster paces come to you — by the December peak they should click into place. <b>Goal race pace stays 5:30–5:41/km</b> whatever your current 5K says; the plan's job is to make that pace sustainable for 21&nbsp;km.</div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">The arc</span>
+    <h2 style="font-size:1.25rem">15 weeks, five phases</h2>
+    <div class="card pad" style="margin-top:12px">
+      <div class="phasebar" id="phasebar"></div>
+      <div class="legend">
+        <span><i style="background:var(--ph-base)"></i>Base — build easy volume</span>
+        <span><i style="background:var(--ph-build)"></i>Build — add threshold</span>
+        <span><i style="background:var(--ph-peak)"></i>Peak — goal-pace long runs</span>
+        <span><i style="background:var(--ph-trip)"></i>Biescas trip — maintain / ski</span>
+        <span><i style="background:var(--ph-taper)"></i>Taper — sharpen</span>
+        <span><i style="background:var(--ph-race)"></i>Race week</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div><span class="eyebrow">Week by week</span><h2 style="font-size:1.25rem">The plan</h2></div>
+      <button class="toolbtn" id="resetbtn" type="button">Reset ticks</button>
+    </div>
+    <p class="lead">Tap a week to open it, then tap a strength session to see the moves and log what you lifted. Ticks and logs save on this device. Days are suggestions — slide them to fit your week, just keep the hard day and the long run 48 hours apart.</p>
+    <div id="weeks" style="margin-top:14px"></div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Power · stability · strength</span>
+    <h2 style="font-size:1.25rem">How the strength work is built</h2>
+    <div class="card pad" style="margin-top:12px">
+      <p style="margin:0;font-size:.92rem">Two sessions a week, periodised to match the running: <b>foundation</b> (tissue, single-leg control, core) → <b>max strength</b> (heavy force, the engine behind economy) → <b>power</b> (plyometrics and fast lifts that lift your cadence) → taper off before race day. <b>Day A pairs with Tuesday's quality run</b> so hard days stay hard; <b>Day B sits on Friday</b>, clear of the Sunday long run. Lift <b>after</b> you run on shared days, and never load the legs heavily the day before a long run. The moves and your log live inside each week above.</p>
+      <p class="hint">Why bother: strength and plyometric training is one of the few interventions shown to improve distance-running economy — you hold the same pace at a lower effort — without adding a kilometre (Blagrove et al., 2018 systematic review). For a newer runner it's also the best defence against the overuse injuries that wreck first half-marathon builds.</p>
+      <p class="hint">The prescriptions assume access to a barbell or dumbbells. If your setup is more minimal — bands, a kettlebell, bodyweight only — tell me and I'll swap the lifts for equivalents.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Race day</span>
+    <h2 style="font-size:1.25rem">Pacing for 24 January</h2>
+    <div class="two" style="margin-top:12px">
+      <div class="card pad">
+        <h3 style="font-size:1rem">Even effort, flat course</h3>
+        <ul class="clean">
+          <li><b>Don't chase the gun.</b> The first km feels easy on purpose — let faster runners go.</li>
+          <li><b>0–5 km:</b> settle at 5:38–5:40, find your breathing.</li>
+          <li><b>5–16 km:</b> lock in 5:33–5:36 and hold. This is the race.</li>
+          <li><b>16–21 km:</b> spend whatever's left. If it's there, drop to 5:25.</li>
+          <li><b>Fuel:</b> one gel around 45–60 min, sip water at aid stations. Rehearse it on long runs from Week 9.</li>
+          <li><b>Coast in January:</b> usually mild, often a sea breeze — tuck behind a group into any headwind.</li>
+        </ul>
+      </div>
+      <div class="card pad">
+        <h3 style="font-size:1rem">Your checkpoints</h3>
+        <table class="splits">
+          <thead><tr><th>Distance</th><th>Pass by</th><th>At 5:35/km</th></tr></thead>
+          <tbody>
+            <tr><td>5 km</td><td class="mono">28:00</td><td class="mono">27:55</td></tr>
+            <tr><td>10 km</td><td class="mono">56:00</td><td class="mono">55:50</td></tr>
+            <tr><td>15 km</td><td class="mono">1:24:00</td><td class="mono">1:23:45</td></tr>
+            <tr><td>20 km</td><td class="mono">1:52:00</td><td class="mono">1:51:40</td></tr>
+            <tr><td>21.1 km</td><td class="mono">1:59:59</td><td class="mono">1:57:50</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">Cross each line on time and sub-2 is yours. Note: the 10K is Saturday at 17:00 the day before — skip it, it's not your race.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Hold the whole thing together</span>
+    <h2 style="font-size:1.25rem">Five rules that matter more than any session</h2>
+    <div class="card pad" style="margin-top:12px">
+      <ul class="clean">
+        <li><b>Easy means easy.</b> Roughly 80% of your running should be conversational. Keeping easy days truly easy is what lets the hard days land and keeps you off the injury list.</li>
+        <li><b>Strength twice a week.</b> Built into every week above — open a strength session in the cards to see the moves and log your sets. For someone ramping from a 5K base it's your biggest injury insurance.</li>
+        <li><b>The niggle rule.</b> A sharp, one-sided pain that changes how you run means stop. Two or three easy days rarely costs fitness; running through an injury can cost the race.</li>
+        <li><b>Consistency beats any single workout.</b> Miss one? Don't cram it in — just rejoin the plan where it is.</li>
+        <li><b>Sleep and food fuel the training, not just race day.</b> The adaptation happens while you recover.</li>
+      </ul>
+    </div>
+  </section>
+
+  <p class="foot">Built from your Santa Pola entry confirmation · 15 weeks from 12 Oct 2026 to race day 24 Jan 2027. Adjust distances ±10% to how you feel — the shape of the plan matters more than any single number.</p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var RACE=new Date(2027,0,24,10,30,0), START=new Date(2026,9,12,0,0,0), DAY=86400000;
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+  (function(){ var d=Math.max(0,Math.ceil((RACE-new Date())/DAY)); var el=document.getElementById('countdays'); if(el) el.textContent=d; })();
+
+  // ---- pace calculator ----
+  function parseTime(s){
+    s=(s||'').trim(); if(!s) return null;
+    var p=s.split(':').map(function(x){return x.trim();}), sec;
+    if(p.length===2){ sec=parseInt(p[0],10)*60+parseFloat(p[1]); }
+    else if(p.length===1){ sec=parseFloat(p[0])*60; }
+    else if(p.length===3){ sec=parseInt(p[0],10)*3600+parseInt(p[1],10)*60+parseFloat(p[2]); }
+    else return null;
+    return (isFinite(sec)&&sec>0)?sec:null;
+  }
+  function fmtPace(s){ var m=Math.floor(s/60), r=Math.round(s%60); if(r===60){m++;r=0;} return m+':'+String(r).padStart(2,'0'); }
+  function fmtClock(s){ s=Math.round(s); var h=Math.floor(s/3600), m=Math.floor((s%3600)/60), r=s%60; return (h?h+':':'')+(h?String(m).padStart(2,'0'):m)+':'+String(r).padStart(2,'0'); }
+  function render5k(){
+    var sec=parseTime(document.getElementById('tt').value);
+    var paces=document.getElementById('paces'), verdict=document.getElementById('verdict');
+    if(!sec){ verdict.innerHTML='Enter a 5K time as <span class="mono">mm:ss</span> to personalise your paces.'; paces.innerHTML=''; return; }
+    var p5=sec/5, hm=sec*4.601;
+    var zones=[['Easy',p5+98,'per km'],['Long',p5+105,'per km'],['Goal pace',335,'target'],['Threshold',p5+23,'per km'],['Intervals',p5+4,'per km']];
+    paces.innerHTML=zones.map(function(z){ return '<div class="pace"><div class="n">'+z[0]+'</div><div class="p">'+fmtPace(z[1])+'</div><div class="u">'+z[2]+'</div></div>'; }).join('');
+    var v,col;
+    if(hm<=7080){ v='Predicted half <b class="mono">'+fmtClock(hm)+'</b> — you\'re already under two hours off this 5K. The block is about making that pace feel easy and holding it when tired.'; col='var(--good)'; }
+    else if(hm<=7320){ v='Predicted half <b class="mono">'+fmtClock(hm)+'</b> — right on the line. 15 weeks of this plan is built to close exactly this gap. Sub-2 is on.'; col='var(--good)'; }
+    else if(hm<=7800){ v='Predicted half <b class="mono">'+fmtClock(hm)+'</b> — a real stretch today, but a full 15-week build can bridge it. Nail the long runs and the threshold work.'; col='var(--warn)'; }
+    else { v='Predicted half <b class="mono">'+fmtClock(hm)+'</b> — sub-2 is ambitious from here in 15 weeks. Chase a strong, healthy finish first; the time will come in a follow-up race.'; col='var(--bad)'; }
+    verdict.style.borderColor=col;
+    verdict.innerHTML='<span style="color:'+col+';font-family:var(--f-display);text-transform:uppercase;letter-spacing:.06em;font-size:.68rem">Reality check</span><br>'+v;
+  }
+  document.getElementById('tt').addEventListener('input',render5k);
+
+  // ---- run plan ----
+  var PH={base:'Base',build:'Build',peak:'Peak',trip:'Trip',taper:'Taper',race:'Race'};
+  var PLAN=[
+    {w:1,dates:'Oct 12 – 18',phase:'base',title:'Settle in & set your paces',km:'~22 km',note:'Saturday’s 5K effort sets every training pace above — run it evenly and plug the time into the calculator.',s:[['Tue','Easy 5 km','conversational + 4 × 20s relaxed strides'],['Thu','Easy 5 km','all easy, nose-breathing pace'],['Sat','Benchmark 5K','1.5 km warm-up → 5 km time trial, even effort → 1 km cool-down (a parkrun is perfect)'],['Sun','Long 8 km','easy; finish feeling you had more']]},
+    {w:2,dates:'Oct 19 – 25',phase:'base',title:'Add a little speed',km:'~25 km',note:'',s:[['Tue','Threshold 5 × 2 min','1.5 km WU → 5 × 2 min at threshold, 90s jog between → CD'],['Thu','Easy 5 km','+ 4 strides'],['Sat','Easy 5 km','relaxed'],['Sun','Long 9 km','easy']]},
+    {w:3,dates:'Oct 26 – Nov 1',phase:'base',title:'Grow the long run',km:'~29 km',note:'',s:[['Tue','Threshold 4 × 3 min','1.5 km WU → 4 × 3 min at threshold, 90s jog → CD'],['Thu','Easy 6 km','+ strides'],['Sat','Easy 5 km','relaxed'],['Sun','Long 11 km','easy']]},
+    {w:4,dates:'Nov 2 – 8',phase:'base',title:'Down week — absorb it',km:'~20 km',note:'A deliberate step back. You adapt during the easy weeks, not the hard ones.',s:[['Tue','Fartlek 6 km','easy run with 6 × 30s light pickups'],['Thu','Easy 5 km','easy'],['Sat','Rest / walk','rest, or 30 min easy walk or cross-train'],['Sun','Long 8 km','easy']]},
+    {w:5,dates:'Nov 9 – 15',phase:'build',title:'The tempo arrives',km:'~30 km',note:'',s:[['Tue','Tempo 15 min','1.5 km WU → 15 min continuous at threshold → CD'],['Thu','Easy 6 km','+ strides'],['Sat','Easy 5 km','relaxed'],['Sun','Long 12 km','easy']]},
+    {w:6,dates:'Nov 16 – 22',phase:'build',title:'First taste of goal pace',km:'~32 km',note:'',s:[['Tue','Threshold 2 × 10 min','1.5 km WU → 2 × 10 min at threshold, 2 min jog → CD'],['Thu','Easy 6 km','+ strides'],['Sat','Easy 5 km','relaxed'],['Sun','Long 13 km','easy, last 3 km at goal pace']]},
+    {w:7,dates:'Nov 23 – 29',phase:'build',title:'Longer threshold',km:'~34 km',note:'',s:[['Tue','Tempo 20 min','1.5 km WU → 20 min continuous at threshold → CD'],['Thu','Easy 7 km','+ strides'],['Sat','Easy 5 km','relaxed'],['Sun','Long 14 km','easy']]},
+    {w:8,dates:'Nov 30 – Dec 6',phase:'build',title:'Fitness check',km:'~26 km',note:'Race or time-trial a 10K this weekend to recalibrate. Around 54–56 min = dead on sub-2 trajectory. Re-enter the result in the calculator.',s:[['Tue','Easy 6 km','+ 4 strides'],['Thu','Easy 5 km','easy'],['Sat','10K test','parkrun-style 10K race or solo time trial — or easy 5 km if none available'],['Sun','Long 10 km','very easy (11 km if you skipped the test)']]},
+    {w:9,dates:'Dec 7 – 13',phase:'build',title:'Goal-pace volume',km:'~37 km',note:'Start taking a gel on the long run now — rehearse race fuelling.',s:[['Tue','Threshold 2 × 12 min','1.5 km WU → 2 × 12 min at threshold, 2 min jog → CD'],['Thu','Easy 7 km','+ strides'],['Sat','Easy 6 km','relaxed'],['Sun','Long 15 km','easy, middle 4 km at goal pace']]},
+    {w:10,dates:'Dec 14 – 20',phase:'peak',title:'Biggest week before the trip',km:'~39 km',note:'Bank this long run before you pack for Biescas.',s:[['Tue','Threshold 3 × 10 min','1.5 km WU → 3 × 10 min at threshold, 2 min jog → CD'],['Thu','Easy 7 km','+ strides'],['Sat','Easy 6 km','relaxed'],['Sun','Long 16 km','easy, last 5 km at goal pace']]},
+    {w:11,dates:'Dec 21 – 27',phase:'trip',title:'Last block, then the slopes',km:'~25 km + ski',note:'You leave for Biescas on the 25th. Ski days are excellent aerobic work — count them. No long run this week; don’t stress missed runs.',s:[['Tue','Threshold 2 × 10 min','1.5 km WU → 2 × 10 min at threshold → CD (sharp one before travel)'],['Wed','Medium-long 12 km','easy, before you pack'],['Thu','Easy 5 km / rest','shake out, or rest'],['Fri–Sun','Ski + optional jog','travel + ski; one easy 20–30 min jog if the legs are willing']]},
+    {w:12,dates:'Dec 28 – Jan 3',phase:'trip',title:'Ski, return, ease back',km:'~22 km',note:'Trip ends around the 30th. Your fitness didn’t vanish over a week of skiing — keep the first runs back genuinely easy.',s:[['Mon–Wed','Ski days','on the slopes; optional easy jog if you can'],['Fri','Easy 6 km','loosen the travel legs'],['Sat','Easy 5 km','+ 4 strides'],['Sun','Long 13 km','easy, re-entry long run']]},
+    {w:13,dates:'Jan 4 – 10',phase:'peak',title:'The confidence long run',km:'~40 km',note:'Your biggest week and the dress rehearsal. If sub-2 is on, you’ll feel it holding goal pace for 7 km off tired legs.',s:[['Tue','Threshold 3 × 10 min','1.5 km WU → 3 × 10 min at threshold, 2 min jog → CD'],['Thu','Easy 7 km','+ strides'],['Sat','Easy 6 km','relaxed'],['Sun','Long 18 km','easy, with 7 km at goal pace in the back half']]},
+    {w:14,dates:'Jan 11 – 17',phase:'taper',title:'Sharpen, shed fatigue',km:'~30 km',note:'Volume drops ~25% but you keep a little intensity. You should feel springier by the weekend.',s:[['Tue','Threshold 2 × 10 min','1.5 km WU → 2 × 10 min at threshold → CD'],['Thu','Easy 6 km','+ 4 strides'],['Sat','Easy 5 km','relaxed'],['Sun','Medium-long 13 km','easy, with 5 km at goal pace — last real rehearsal']]},
+    {w:15,dates:'Jan 18 – 24',phase:'race',title:'Fresh legs to the line',km:'Race week',note:'Legs over lungs this week. Pick up your dorsal Friday. The 10K is Saturday at 17:00 — don’t run it.',s:[['Mon','Easy 5 km','relaxed'],['Tue','Goal pace 3 × 1 km','1.5 km WU → 3 × 1 km at goal pace, 90s jog → CD; legs remember the pace'],['Thu','Rest / easy 20 min','rest or a short shakeout'],['Sat','Shakeout 20 min','easy + 3 strides, then rest and hydrate'],['Sun','RACE — 21.1 km','10:30 start. Even splits at 5:35–5:38/km. Trust the training.']]}
+  ];
+
+  // ---- strength blocks (exercises) ----
+  var SB={
+    found:{A:[['Goblet squat','3×10'],['Romanian deadlift (light)','3×8'],['Reverse lunge','3×8/leg'],['Calf raise — straight + bent knee','3×12'],['Front plank','3×40s']],
+           plyo:[['Pogo hops','3×20s'],['Box step-off landings','3×5, stick it']],
+           B:[['Single-leg glute bridge','3×10/leg'],['Split squat','3×8/leg'],['Single-leg RDL (light)','3×8/leg'],['Side plank','3×30s/side'],['Dead bug','3×8/side'],['Band lateral walks','2×12/side']]},
+    max:{A:[['Back or front squat (heavy)','4×5'],['Trap-bar or conventional deadlift','3×5'],['Bulgarian split squat (loaded)','3×6/leg'],['Weighted calf raise','3×8'],['Box jumps','4×4']],
+         B:[['Single-leg RDL (loaded)','3×6/leg'],['Loaded step-up, drive knee','3×6/leg'],['Hip thrust','3×8'],['Copenhagen plank','3×20s/side'],['Pallof press','3×10/side']]},
+    pow:{A:[['Squat — moderate, fast up','3×4'],['Jump squat / trap-bar jump (light)','4×4'],['Alternating bounds','4×~20 m'],['Line or hurdle hops','3×20s'],['Single-leg hop & stick','3×5/leg']],
+         B:[['Single-leg RDL','2×6/leg'],['Lateral bounds','3×6/side'],['Hip thrust','2×8'],['Dead bug','2×8/side'],['Side plank','2×30s/side'],['Pallof press','2×10/side']]},
+    trip:[['Squat','2×15'],['Split squat','2×10/leg'],['Single-leg glute bridge','2×10/leg'],['Calf raise','2×15'],['Front plank','2×45s'],['Side plank','2×30s/side'],['Pogo hops','2×20s']],
+    taper:[['Squat (moderate)','2×4'],['Jump squat','3×3'],['Pogo hops','2×20s'],['Dead bug','2×8/side'],['Side plank','2×30s/side']],
+    race:[['Glute bridges','2×12'],['Band lateral walks','2×12/side'],['Pogo hops','2×15']]
+  };
+  function strengthFor(w){
+    if(w<=4){ var a=SB.found.A.slice(); if(w>=3) a=a.concat(SB.found.plyo);
+      return [{day:'Tue',key:'A',title:'Strength A · Foundation',ex:a},{day:'Fri',key:'B',title:'Strength B · Foundation',ex:SB.found.B}]; }
+    if(w<=8) return [{day:'Tue',key:'A',title:'Strength A · Max strength',note:'Heavy, low reps, full rest (2–3 min).',ex:SB.max.A},{day:'Fri',key:'B',title:'Strength B · Max strength',ex:SB.max.B}];
+    if(w<=10) return [{day:'Tue',key:'A',title:'Strength A · Power',note:'Light loads moved fast; quality over quantity, full recovery.',ex:SB.pow.A},{day:'Fri',key:'B',title:'Strength B · Power (lighter)',ex:SB.pow.B}];
+    if(w===11) return [{day:'opt',key:'X',title:'Travel circuit (optional)',note:'Skiing already loads the legs — bodyweight only, 1–2 rounds.',ex:SB.trip}];
+    if(w===12) return [{day:'opt',key:'X',title:'Travel circuit (optional)',note:'Ease back in — bodyweight only.',ex:SB.trip}];
+    if(w===13) return [{day:'Tue',key:'A',title:'Strength A · Power (last full)',ex:SB.pow.A},{day:'Fri',key:'B',title:'Strength B · Power (lighter)',ex:SB.pow.B}];
+    if(w===14) return [{day:'Tue',key:'X',title:'Taper — stay sharp',note:'One short session early week, ~20 min. Snappy, not tiring.',ex:SB.taper}];
+    return [{day:'Mon',key:'X',title:'Activation only — no heavy lifting',note:'Nothing within four days of the race. Fresh legs win.',ex:SB.race}];
+  }
+
+  // phase bar
+  var pv={base:'--ph-base',build:'--ph-build',peak:'--ph-peak',trip:'--ph-trip',taper:'--ph-taper',race:'--ph-race'};
+  var nowWeek=Math.floor((new Date()-START)/(7*DAY));
+  document.getElementById('phasebar').innerHTML=PLAN.map(function(p,i){
+    return '<div class="pbcell'+(i===nowWeek?' now':'')+'"><div class="bar" style="--pc:var('+pv[p.phase]+')"></div><div class="wn">'+p.w+'</div></div>';
+  }).join('');
+
+  // storage
+  var KEY='spSub2.v1', KEYL='spSub2.logs.v1', state={}, logs={};
+  try{ state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ state={}; }
+  try{ logs=JSON.parse(localStorage.getItem(KEYL)||'{}')||{}; }catch(e){ logs={}; }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
+  function saveLogs(){ try{ localStorage.setItem(KEYL,JSON.stringify(logs)); }catch(e){} }
+
+  var caretSvg='<svg class="caret" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var host=document.getElementById('weeks');
+  host.innerHTML=PLAN.map(function(p,i){
+    var open=(i===nowWeek)?' open':'', isnow=(i===nowWeek)?' now':'';
+    var chip='<span class="chip" style="background:var('+pv[p.phase]+')">'+PH[p.phase]+'</span>';
+    var sess=p.s.map(function(s,j){
+      var id='w'+p.w+'d'+j, done=state[id]?' done':'', ck=state[id]?' checked':'';
+      return '<label class="sess'+done+'" data-id="'+id+'"><input type="checkbox"'+ck+' aria-label="'+esc(s[0]+' '+s[1])+'"><span class="day">'+s[0]+'</span><span class="body"><span class="st">'+s[1]+'</span><span class="sx">'+s[2]+'</span></span></label>';
+    }).join('');
+    var strs=strengthFor(p.w);
+    var strHtml='<div class="substr"><i></i>Strength</div>'+strs.map(function(d){
+      var rows=d.ex.map(function(e,k){
+        var cid='w'+p.w+'s'+d.key+'e'+k, cdone=state[cid]?' done':'', ck=state[cid]?' checked':'';
+        var lk='lg.w'+p.w+'.'+d.key+'.'+k, lv=logs[lk]?esc(logs[lk]):'';
+        return '<div class="exrow'+cdone+'"><input type="checkbox" class="exck" data-id="'+cid+'"'+ck+' aria-label="done"><span class="exmain"><span class="exn">'+e[0]+'<span class="exrx">'+e[1]+'</span></span><input type="text" class="exlog" id="'+lk+'" data-log="'+lk+'" value="'+lv+'" placeholder="log: e.g. 60 kg × 5" aria-label="log for '+esc(e[0])+'"></span></div>';
+      }).join('');
+      var nt=d.note?'<div class="s2note">'+d.note+'</div>':'';
+      return '<details class="sday2"><summary><span class="s2day">'+d.day+'</span><span class="s2t">'+d.title+'</span><span class="s2ct">'+d.ex.length+' moves</span>'+caretSvg+'</summary><div class="s2body">'+nt+rows+'</div></details>';
+    }).join('');
+    var note=p.note?'<div class="wnote">'+p.note+'</div>':'';
+    return '<details class="week card'+isnow+'"'+open+' id="week'+p.w+'">'+
+      '<summary class="whead"><span class="wnum">'+p.w+'</span>'+
+      '<span class="wtitle"><span class="t">'+p.title+'</span><span class="d">'+p.dates+'</span></span>'+
+      chip+'<span class="wkm">'+p.km+'</span><svg class="caret main" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+      '</summary><div class="wbody">'+note+sess+strHtml+'</div></details>';
+  }).join('');
+
+  host.addEventListener('change',function(e){
+    var t=e.target;
+    if(t.classList.contains('exck')){
+      var row=t.closest('.exrow'), id=t.getAttribute('data-id');
+      if(t.checked){ state[id]=1; row.classList.add('done'); } else { delete state[id]; row.classList.remove('done'); }
+      save(); return;
+    }
+    var lab=t.closest('.sess');
+    if(lab && t.type==='checkbox'){
+      var id2=lab.getAttribute('data-id');
+      if(t.checked){ state[id2]=1; lab.classList.add('done'); } else { delete state[id2]; lab.classList.remove('done'); }
+      save();
+    }
+  });
+  host.addEventListener('input',function(e){
+    var t=e.target;
+    if(t.classList.contains('exlog')){
+      var k=t.getAttribute('data-log');
+      if(t.value){ logs[k]=t.value; } else { delete logs[k]; }
+      saveLogs();
+    }
+  });
+
+  document.getElementById('resetbtn').addEventListener('click',function(){
+    state={}; save();
+    var boxes=host.querySelectorAll('input[type=checkbox]');
+    for(var i=0;i<boxes.length;i++) boxes[i].checked=false;
+    var done=host.querySelectorAll('.sess.done,.exrow.done');
+    for(var j=0;j<done.length;j++) done[j].classList.remove('done');
+  });
+
+  render5k();
+})();
+</script>
+</body>
+</html>
